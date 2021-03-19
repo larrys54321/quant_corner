@@ -2,6 +2,34 @@ import math
 from scipy.stats import norm
 import pandas as pd, numpy as np
 from datetime import date
+from matplotlib import ticker
+import matplotlib.dates as mdates
+
+def set_plot(ax):
+    ax.set_axisbelow(True)
+    # Turn on the minor TICKS, which are required for the minor GRID
+    ax.minorticks_on()
+    # Customize the major grid
+    ax.grid(which='major', linestyle='-', linewidth='0.5', color='red')
+    # Customize the minor grid
+    ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
+    #myFmt = mdates.DateFormatter('%y-%m-%d')
+    #myFmt = mdates.DateFormatter('%D')
+    #ax.xaxis.set_major_formatter(myFmt)
+    ax.tick_params(labelrotation=30, labelsize=6)
+    M = 30
+    xticks = ticker.MaxNLocator(M)
+    ax.xaxis.set_major_locator(xticks)
+
+def get_ATR(df, w, f=1):
+    out = w * [0]
+    highs = list(df.High)
+    lows = list(df.Low)
+    closes = list(df.Close)
+    for i in range(w, len(closes)):
+        ATR = f * max(highs[i]-lows[i], abs(highs[i]-closes[i-w]), abs(lows[i]-closes[i-w]))
+        out.append(ATR/closes[i-w])
+    df['ATR_'+str(w)] = out
 
 def get_percent_chg(df, w):
     out = w * [0]
@@ -9,7 +37,6 @@ def get_percent_chg(df, w):
     for i in range(w, len(df)):
         out.append((closes[i]-closes[i-w])/closes[i-w])
     df['ret_'+str(w)] = out
-
 
 class Option:
     """
