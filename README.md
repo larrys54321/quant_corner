@@ -7,3 +7,7 @@ Percent return and volatility prediction using GARCH(2, 2) models at different l
 <br />
 <img src="https://github.com/larrys54321/quant_corner/blob/master/docs/SPY_ret_predictvol_IVs.png" /> <br />
 Implied volatility at money for Call and Put
+<br />
+<br />
+Compare volatility and garch prediction
+<img src="https://github.com/larrys54321/quant_corner/blob/master/docs/vol_vs_garch.png" /> <br />
