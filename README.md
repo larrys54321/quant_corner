@@ -11,3 +11,7 @@ Implied volatility at money for Call and Put
 <br />
 Compare volatility and garch prediction
 <img src="https://github.com/larrys54321/quant_corner/blob/master/docs/vol_vs_garch.png" /> <br />
+<br />
+<br />
+IV at different moneyness
+<img src="https://github.com/larrys54321/quant_corner/blob/master/docs/IV_at_moneyness.png" /> <br />
