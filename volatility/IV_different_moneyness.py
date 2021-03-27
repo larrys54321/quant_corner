@@ -56,7 +56,7 @@ for k in range(0, len(keyList), 2):
 ax[2*len(keyList)].legend(keyList+keyList_vol, loc=2, fontsize=6)
 ax[2*len(keyList)].xaxis.set_ticklabels([])
 set_plot(ax[k+2])
-ax[k+3].plot(df['Date'][-test_size:], df['Close'][-test_size:], label=key, color='purple')
+ax[k+3].plot(df['Date'][-test_size:], df['Close'][-test_size:], label=key, color='black')
 ax[k+3].legend(['Close'], loc=2, fontsize=6)
 set_plot(ax[k+3])
 plt.show()

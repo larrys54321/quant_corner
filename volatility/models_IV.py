@@ -69,7 +69,6 @@ def get_IV(df, df_option, test_size, ir_free, keyList=[], keyList_vol=[], keyLis
     df_ret = pd.DataFrame()
     df_ret['Date'] = df['Date'][len(df)-test_size:]
     df_ret['Date_str'] = df['Date_str'][len(df)-test_size:]
-    lm = linear_model.LinearRegression()
     dates = list(df_ret['Date_str'])
     for k in range(len(keyList)):
         key, key_vol, key_ATR = keyList[k], keyList_vol[k], keyList_ATR[k]
@@ -109,8 +108,12 @@ def get_IV(df, df_option, test_size, ir_free, keyList=[], keyList_vol=[], keyLis
                 rows_iv.append({'Strike':k, 'Days_exp':days_exp, 'Type':type_, 'IV':iv})
             df_iv = pd.DataFrame(rows_iv)
             df_iv_c, df_iv_p = df_iv[df_iv['Type'] == 'C'], df_iv[df_iv['Type'] == 'P']
-            X_c, X_p, y_c, y_p = np.array(df_iv_c[['Strike', 'Days_exp']]), np.array(df_iv_p[['Strike', 'Days_exp']]), np.array(df_iv_c['IV']), np.array(df_iv_p['IV'])
-            model_c, model_p = lm.fit(X_c, y_c), lm.fit(X_p, y_p)
+            X_c, y_c = np.array(df_iv_c[['Strike', 'Days_exp']]), np.array(df_iv_c['IV'])
+            lm_c = linear_model.LinearRegression()
+            model_c = lm_c.fit(X_c, y_c)
+            X_p, y_p = np.array(df_iv_p[['Strike', 'Days_exp']]), np.array(df_iv_p['IV'])
+            lm_p = linear_model.LinearRegression()
+            model_p = lm_p.fit(X_p, y_p)
             x_, x_10u, x_10d = np.array(pd.DataFrame([{'Strike':s, 'Days_exp':30}])), np.array(pd.DataFrame([{'Strike':s*1.1, 'Days_exp':30}])), np.array(pd.DataFrame([{'Strike':s*0.9, 'Days_exp':30}]))
             iv_am_c, iv_am_c10u, iv_am_c10d = model_c.predict(x_)[0], model_c.predict(x_10u)[0], model_c.predict(x_10d)[0]
             iv_am_p, iv_am_p10u, iv_am_p10d = model_p.predict(x_)[0], model_p.predict(x_10u)[0], model_p.predict(x_10d)[0]
